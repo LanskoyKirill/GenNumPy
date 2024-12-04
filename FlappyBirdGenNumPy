@@ -132,10 +132,10 @@ while True:
             NewNet.append(i)
     goodNet = list(NewNet)
     listNet = {}
-    if epoch > 0:
     howALot = 1000 - len(NewNet)
-    if howALot < 40:
-        howALot = 40
+    if howALot < 500:
+        howALot = 501
+        goodNet = goodNet[:500]
     for g in range(howALot):
         parent1 = random.choice(NewNet)
         parent2 = random.choice(NewNet)
