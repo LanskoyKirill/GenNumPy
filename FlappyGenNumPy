@@ -1,0 +1,152 @@
+import numpy as np
+import random
+import main as anp
+import pygame as pg
+import sys
+from pygame.locals import *
+import numpy as np
+pg.init()
+listNet = {}
+NewNet = []
+pg.init()
+listNet = {}
+NewNet = []
+goodNet = []
+timeNN = 0
+showNN = False
+moveRight = False
+moveLeft = False
+epoch = 0
+pg.init()
+mainClock = pg.time.Clock()
+WINDOWWIDTH = 551
+WINDOWHEIGHT = 720
+windowSurface = pg.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT), 0, 32)
+pg.display.set_caption('ANN Bird')
+def sigmoid(x):
+    return 1/(1 + np.exp(-x))
+
+class Network():
+    def __init__(self):
+        self.H1 = np.random.randn(4, 12)
+        self.H2 = np.random.randn(12, 6)
+        self.O1 = np.random.randn(6, 2)
+        self.BH1 = np.random.randn(12)
+        self.BH2 = np.random.randn(6)
+        self.BO1 = np.random.randn(2)
+        self.epoch = 0
+
+    def predict(self, x):
+        nas = x @ self.H1 + self.BH1
+        nas = sigmoid(nas)
+        nas = nas @ self.H2 + self.BH2
+        nas = sigmoid(nas)
+        nas = nas @ self.O1 + self.BO1
+        nas = sigmoid(nas)
+        if nas[0] >= nas[1]:
+            return True
+        else:
+            return False
+        def epoch(self, a):
+            return 0
+
+        birdx = 100
+        birdy = 250
+        score = 0
+        colx = 0
+        colHy = 0
+        colLy = 0
+        NextColx1 = 0
+        NextColy1 = 0
+        NextColHy1 = 0
+        NextColx2 = 0
+
+class Network1():
+    def __init__(self, H1, H2, O1, BH1, BH2, BO1, ep):
+        self.H1 = H1
+        self.H2 = H2
+        self.O1 = O1
+        self.BH1 = BH1
+        self.BH2 = BH2
+        self.BO1 = BO1
+        self.epoch = ep
+
+    def predict(self, x):
+        nas = x @ self.H1 + self.BH1
+        nas = sigmoid(nas)
+        nas = nas @ self.H2 + self.BH2
+        nas = sigmoid(nas)
+        nas = nas @ self.O1 + self.BO1
+        nas = sigmoid(nas)
+        if nas[0] >= nas[1]:
+            return True
+        else:
+            return False
+        
+        birdx = 100
+        birdy = 250
+        score = 0
+        colx = 0
+        colHy = 0
+        colLy = 0
+        NextColx1 = 0
+        NextColy1 = 0
+        NextColHy1 = 0
+        NextColx2 = 0
+
+for s in range (1000):
+    s = Network()
+    NewNet.append(s)
+listNet = anp.NPong(NewNet, True, 1, 1)
+    
+listNet = dict(sorted(listNet.items(), key=lambda item: item[1]))
+NewNet = listNet.keys()
+goodNet = list(NewNet)
+NewNet = goodNet[:10]
+listNet = {}
+goodNet = NewNet
+for g in range(990):
+    parent1 = random.choice(NewNet)
+    parent2 = random.choice(NewNet)
+    ch1H = np.vstack((parent1.H1[:2], parent2.H1[2:])) * random.uniform(-2, 2)
+    ch2H = np.vstack((parent1.H2[:6], parent2.H2[6:])) * random.uniform(-2, 2)
+    ch1O = np.vstack((parent1.O1[:3], parent2.O1[3:])) * random.uniform(-2, 2)
+    chB1 = parent1.BH1 * random.uniform(-2, 2)
+    chB2 = parent2.BH2 * random.uniform(-2, 2)
+    chB3 = parent2.BO1 * random.uniform(-2, 2)
+    g = Network1(ch1H, ch2H, ch1O, chB1, chB2, chB3, 1)
+    goodNet.append(g)
+NewNet = []
+while True:
+    epoch += 1
+    print(str(epoch) + " epoch")
+    listNet = anp.NPong(goodNet, True, 1, 1)
+    goodNet =[]
+    listNet = dict(sorted(listNet.items(), key=lambda item: item[1], reverse = True))
+    goodNet = list(listNet.keys())
+    NewNet.append(goodNet[0])
+    goodNet = list(listNet.values())
+    for i in listNet:
+        a = goodNet[0]
+        if listNet.get(i) == a:
+            NewNet.append(i)
+    goodNet = list(NewNet)
+    listNet = {}
+    if epoch > 0:
+    howALot = 1000 - len(NewNet)
+    if howALot < 40:
+        howALot = 40
+    for g in range(howALot):
+        parent1 = random.choice(NewNet)
+        parent2 = random.choice(NewNet)
+        ch1H = np.vstack((parent1.H1[:2], parent2.H1[2:])) * random.uniform(-2, 2)
+        ch2H = np.vstack((parent1.H2[:6], parent2.H2[6:])) * random.uniform(-2, 2)
+        ch1O = np.vstack((parent1.O1[:3], parent2.O1[3:])) * random.uniform(-2, 2)
+        chB1 = parent1.BH1 * random.uniform(-2, 2)
+        chB2 = parent2.BH2 * random.uniform(-2, 2)
+        chB3 = parent2.BO1 * random.uniform(-2, 2)
+        g = Network1(ch1H, ch2H, ch1O, chB1, chB2, chB3, epoch)
+        goodNet.append(g)
+    print(len(NewNet))
+    print(len(goodNet))
+    NewNet = []
