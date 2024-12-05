@@ -128,13 +128,13 @@ while True:
     goodNet = list(listNet.values())
     for i in listNet:
         a = goodNet[0]
-        if listNet.get(i) == a:
+        if (a - listNet.get(i)) < 20:
             NewNet.append(i)
     goodNet = list(NewNet)
     listNet = {}
     howALot = 1000 - len(NewNet)
     if howALot < 500:
-        howALot = 501
+        howALot = 500
         goodNet = goodNet[:500]
     for g in range(howALot):
         parent1 = random.choice(NewNet)
